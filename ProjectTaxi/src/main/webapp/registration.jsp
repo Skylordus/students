@@ -24,11 +24,11 @@
 		<nav id="header-nav" class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="index.html" class="pull-left visible-md visible-lg">
+					<a href="index.jsp" class="pull-left visible-md visible-lg">
 						<div id="logo-img" alt="Logo"></div>
 					</a>
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="index.jsp">
 							<h1>Project Taxi</h1>
 							<br>
 							<a class="phone" href="tel:8-708-519-41-49">
@@ -53,17 +53,18 @@
 
 					<div class="sub-md-block">
 						<h1 class="order-header">Registration:</h1>
+						<h3 style="color: darkred; font-weight: bold; visibility: <%=request.getAttribute("unfilled")%>">Please fill out all required fields marked with *</h3>
 						<form class="registration-form" action="/registration" method="post">
 							<div class="order-labels">
-								<label for="user_login">Login:</label> <br>
-								<label for="user_password">Password:</label> <br>
-								<label for="user_name">Name:</label> <br>
-								<label for="user_surname">Surname:</label> <br>
+								<label for="user_login">Login:<x>*</x></label> <br>
+								<label for="user_password">Password:<x>*</x></label> <br>
+								<label for="user_name">Name:<x>*</x></label> <br>
+								<label for="user_surname">Surname:<x>*</x></label> <br>
 								<label for="user_patronymic">Patronymic:</label> <br>
 								<label for="user_birthdate">Birthdate:</label> <br>
-								<label for="user_email">Email:</label> <br>
+								<label for="user_email">Email:<x>*</x></label> <br>
 								<hr style="width: 700px">
-								<label for="user_role">Account type:</label> <br>
+								<label for="user_role">Account type:<x>*</x></label> <br>
 								<label for="account_password">Special password:</label> <br>
 								<p style="color: red; font-size: 0.7em;">For account types other than client</p>
 							</div>
@@ -82,7 +83,7 @@
 								</div>
 								<input class="order-address" type="password" name="account_password" id="account_password" placeholder="enter password given to you by administrator">
 							</div>
-							<input class="new-order-button" type="submit" value="Submit" formmethod="post">
+							<input class="new-order-button" type="submit" name="reg_button" value="Submit" formmethod="post">
 						</form>
 
 					</div>

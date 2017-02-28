@@ -1,3 +1,7 @@
+x {
+    color: red;
+    font-size: 0.8em;
+}
 .sub-md-block {
     position: absolute;
     top: 0;
@@ -7,7 +11,7 @@
 .md-block {
     position: relative;
     width: 70%;
-    height: 400px;
+    height: 500px;
     background-color: rgba(0,0,0,0.5);
     border-radius: 50px;
     margin-left: auto;
@@ -36,8 +40,8 @@
 }
 .new-order-form {
     position: relative;
-    width: 550px;
-    height: 200px;
+    width: 650px;
+    height: 250px;
 }
 .registration-form {
     position: relative;
@@ -61,6 +65,7 @@
     color: #0f0f0f;
     font-weight: bold;
     padding-top: 10px;
+    margin-left: 10px;
 }
 input[type=radio] {
     border: 0px;
@@ -86,4 +91,6 @@ input[type=radio] {
     color: #0f0f0f;
     border-radius: 10px;
     margin-bottom: 23px;
+    text-align: center;
+    font-style: italic;
 }

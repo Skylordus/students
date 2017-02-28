@@ -24,11 +24,11 @@
 		<nav id="header-nav" class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="index.html" class="pull-left visible-md visible-lg">
+					<a href="index.jsp" class="pull-left visible-md visible-lg">
 						<div id="logo-img" alt="Logo"></div>
 					</a>
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="index.jsp">
 							<h1>Project Taxi</h1>
 							<br>
 							<a class="phone" href="tel:8-708-519-41-49">
@@ -63,7 +63,7 @@
 
 					<div style="visibility: <%=newOrderBlock%>" class="sub-md-block">
 						<h1 class="order-header">Order taxi:</h1>
-						<form class="new-order-form" action="/user" method="post">
+						<form class="new-order-form" action="/user_account" method="post">
 							<div class="order-labels">
 								<label for="from">From:</label> <br>
 								<label for="to">Where to:</label> <br>
@@ -73,7 +73,7 @@
 							<div class="order-inputs">
 								<input class="order-address" type="text" name="from" id="from" placeholder="some city, some street, some home"> <br>
 								<input class="order-address" type="text" name="to" id="to" placeholder="some city, some street, some home"> <br>
-								<input class="order-address" type="time" name="pickup_time" id="pickup_time"> <br>
+								<input class="order-address" style="width: 100px; text-align: center" type="time" name="pickup_time" id="pickup_time"> <br>
 								<input type="radio" name="plan" id="plan" value="economy">Economy
 								<input type="radio" name="plan" value="comfort">Comfort
 								<input type="radio" name="plan" value="business">Business
@@ -98,14 +98,22 @@
 							<span class="order-value"><%=request.getAttribute("to")%></span>
 						</div>
 						<div>
+							<span class="order-field">Price: </span>
+							<span class="order-value"><%=request.getAttribute("price")%></span>
+						</div>
+						<div>
 							<span class="order-field">driver: </span>
 							<span class="order-value"><%=request.getAttribute("driver")%></span>
+						</div>
+						<div>
+							<span class="order-field">car: </span>
+							<span class="order-value"><%=request.getAttribute("car")%></span>
 						</div>
 						<div>
 							<span class="order-field">status: </span>
 							<span class="order-value"><%=request.getAttribute("status")%></span>
 						</div>
-						<form action="/user" method="post">
+						<form action="/user_account" method="post">
 							<input type="hidden" name="type" value="cancel_order">
 							<input style="right: 30px" class="new-order-button" type="submit" value="Cancel order" formmethod="post">
 						</form>

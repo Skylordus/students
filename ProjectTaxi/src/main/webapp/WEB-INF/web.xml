@@ -22,4 +22,49 @@
         <url-pattern>/registration</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>AdminServlet</servlet-name>
+        <servlet-class>controllers.servlets.AdminServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AdminServlet</servlet-name>
+        <url-pattern>/admin_account</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DriverServlet</servlet-name>
+        <servlet-class>controllers.servlets.DriverServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DriverServlet</servlet-name>
+        <url-pattern>/driver_account</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ClientServlet</servlet-name>
+        <servlet-class>controllers.servlets.ClientServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClientServlet</servlet-name>
+        <url-pattern>/user_account</url-pattern>
+    </servlet-mapping>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>controllers.filters.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/user_account</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>RegFilter</filter-name>
+        <filter-class>controllers.filters.RegFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RegFilter</filter-name>
+        <url-pattern>/registration</url-pattern>
+    </filter-mapping>
+
 </web-app>

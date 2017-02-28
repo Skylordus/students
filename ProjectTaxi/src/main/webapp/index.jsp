@@ -24,12 +24,12 @@
 			<div class="container">
 				<div class="navbar-header">
 					
-					<a href="index.html" class="pull-left visible-md visible-lg">
+					<a href="index.jsp" class="pull-left visible-md visible-lg">
 						<div id="logo-img" alt="Logo"></div>
 					</a>
 
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="index.jsp">
 							<h1>Welcome to Project Taxi</h1>
 							<br>
 							<a class="phone" href="tel:8-708-519-41-49">

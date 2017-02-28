@@ -24,11 +24,11 @@
 		<nav id="header-nav" class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="index.html" class="pull-left visible-md visible-lg">
+					<a href="index.jsp" class="pull-left visible-md visible-lg">
 						<div id="logo-img" alt="Logo"></div>
 					</a>
 					<div class="navbar-brand">
-						<a href="index.html">
+						<a href="index.jsp">
 							<h1>Project Taxi</h1>
 							<br>
 							<a class="phone" href="tel:8-708-519-41-49">
@@ -48,62 +48,24 @@
 
 
 	<div id="main-content" class="container">
-		<%  String newOrderBlock = "hidden";
-			String orderStatusBlock = "hidden";
-			if (request.getAttribute("ordered")!=null) {
-				orderStatusBlock = "visible";
-			} else {
-				newOrderBlock = "visible";
-			}
-		%>
+
 		<section class="row">
 			<div class="md-container col-xs-12">
 
 				<div class="md-block">
 
-					<div style="visibility: <%=newOrderBlock%>" class="sub-md-block">
-						<h1 class="order-header">Order taxi:</h1>
-						<form class="new-order-form" action="/login" method="post">
-							<div class="order-labels">
-								<label for="from">From:</label> <br>
-								<label for="to">Where to:</label> <br>
-								<label for="plan">Select a plan:</label>
-							</div>
-							<div class="order-inputs">
-								<input class="order-address" type="text" name="from" id="from" placeholder="some city, some street, some home"> <br>
-								<input class="order-address" type="text" name="to" id="to" placeholder="some city, some street, some home"> <br>
-								<input type="radio" name="plan" id="plan" value="economy">Economy
-								<input type="radio" name="plan" value="comfort">Comfort
-								<input type="radio" name="plan" value="business">Business
-							</div>
-							<input class="new-order-button" type="submit" value="Order" formmethod="post">
-						</form>
-					</div>
+					<div style="visibility: visible" class="sub-md-block">
+						<h1 class="order-header">Driver :</h1>
 
-					<div style="visibility: <%=orderStatusBlock%>" class="sub-md-block">
-						<h1 class="order-header">Your order status:</h1>
-						<div>
-							<span class="order-field">id: </span>
-							<span class="order-value"><%=request.getAttribute("id")%></span>
-						</div>
-						<div>
-							<span class="order-field">from: </span>
-							<span class="order-value"><%=request.getAttribute("from")%></span>
-						</div>
-						<div>
-							<span class="order-field">to: </span>
-							<span class="order-value"><%=request.getAttribute("to")%></span>
-						</div>
-						<div>
-							<span class="order-field">driver: </span>
-							<span class="order-value"><%=request.getAttribute("driver")%></span>
-						</div>
-						<div>
-							<span class="order-field">status: </span>
-							<span class="order-value"><%=request.getAttribute("status")%></span>
-						</div>
+
+
+
+
+
 					</div>
 				</div>
+
+
 			</div>
 		</section>
 	</div> <!-- End of #main-content -->

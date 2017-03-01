@@ -16,8 +16,9 @@ public class AuthFilter implements Filter {
     }
 
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws ServletException, IOException {
+        logger.trace("on auth filter");
         chain.doFilter(req, resp);
-        logger.error("on filter");
+
     }
 
     public void init(FilterConfig config) throws ServletException {

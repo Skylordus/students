@@ -21,7 +21,7 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.trace("on POST Registration servlet");
         UserService.register(request);
-        response.sendRedirect("/login");
+        request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

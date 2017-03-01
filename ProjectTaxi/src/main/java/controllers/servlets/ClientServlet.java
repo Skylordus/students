@@ -39,6 +39,7 @@ public class ClientServlet extends HttpServlet {
             ClientService.updateOrder(client.getId(),id);
 
         } else if (type.equals("cancel_order")) {
+            logger.trace(client.getId());
             ClientService.updateOrder(client.getId(),(long)0);
             OrderService.delete(client.getOrder());
             client.setOrder((long)0);

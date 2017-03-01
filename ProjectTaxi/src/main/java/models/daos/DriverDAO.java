@@ -4,6 +4,8 @@ import models.connectors.Connector;
 import models.pojos.Driver;
 import models.pojos.User;
 import org.apache.log4j.Logger;
+import org.postgresql.util.PSQLException;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,8 +25,11 @@ public class DriverDAO {
     public static boolean insert(Driver driver) {
         try (PreparedStatement prepS = UserDAO.insert(SQL_INSERT_DRIVER, driver) ) {
             if (prepS.executeUpdate() > 0) return true;
+        } catch (PSQLException e) {
+            logger.trace(e.getCause());
+            logger.error("PSQL exc. in insert driver method",e);
         } catch (SQLException e) {
-            logger.error("sql error in insert driver method",e);
+            logger.error("SQL exc. in insert driver method",e);
         }
         return false;
     }

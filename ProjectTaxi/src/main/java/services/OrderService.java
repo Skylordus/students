@@ -15,6 +15,10 @@ public class OrderService {
         return order;
     }
 
+    public static Long generateOrder(String from, String to, Integer time){
+        return 0l;
+    }
+
     public static Long insert(Order order) {
          return OrderDAO.insert(order);
     }

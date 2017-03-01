@@ -5,6 +5,8 @@ import models.daos.OrderDAO;
 import models.pojos.Car;
 import models.pojos.Order;
 
+import java.lang.reflect.Proxy;
+
 /**
  * Created by Yerlan on 26.02.2017.
  */

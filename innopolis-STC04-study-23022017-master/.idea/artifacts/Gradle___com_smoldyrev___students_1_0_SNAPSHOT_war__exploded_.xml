@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="Gradle : com.naraikin : students-1.0-SNAPSHOT.war (exploded)">
+  <artifact type="exploded-war" name="Gradle : com.smoldyrev : students-1.0-SNAPSHOT.war (exploded)">
     <output-path>$PROJECT_DIR$/build/libs/exploded/students-1.0-SNAPSHOT.war</output-path>
     <properties id="gradle-properties">
       <options external-project-path="$PROJECT_DIR$">
@@ -17,11 +17,14 @@
           <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: postgresql:postgresql:9.1-901.jdbc4" />
+          <element id="library" level="project" name="Gradle: log4j:log4j:1.2.17" />
           <element id="library" level="project" name="Gradle: javax.servlet:javax.servlet-api:3.0.1" />
           <element id="library" level="project" name="Gradle: jstl:jstl:1.2" />
-          <element id="library" level="project" name="Gradle: log4j:log4j:1.2.17" />
+          <element id="library" level="project" name="Gradle: postgresql:postgresql:9.0-801.jdbc4" />
+          <element id="library" level="project" name="Gradle: javax.mail:mail:1.4" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-context:4.3.5.RELEASE" />
+          <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.3.5.RELEASE" />
+          <element id="library" level="project" name="Gradle: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-aop:4.3.5.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-beans:4.3.5.RELEASE" />
           <element id="library" level="project" name="Gradle: org.springframework:spring-core:4.3.5.RELEASE" />

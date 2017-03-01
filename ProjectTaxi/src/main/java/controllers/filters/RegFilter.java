@@ -1,13 +1,10 @@
 package controllers.filters;
 
 import org.apache.log4j.Logger;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
+
 
 /**
  * Created by Yerlan on 28.02.2017.
@@ -33,13 +30,15 @@ public class RegFilter implements Filter {
                 req.setAttribute("unfilled","visible");
                 req.getRequestDispatcher("/registration.jsp").forward(req,resp);
             }
+        } else {
+            chain.doFilter(req,resp);
         }
-        chain.doFilter(req, resp);
+
     }
 
     public void init(FilterConfig config) throws ServletException {}
 
-    public static boolean checkParams(ServletRequest request) {
+    private static boolean checkParams(ServletRequest request) {
         boolean isOk = true;
 
         if (request.getParameter("user_name").trim().isEmpty()) isOk=false;

@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>controllers.servlets.LoginServlet</servlet-class>
+        <servlet-class>com.yberdaliyev.controllers.servlets.LoginServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -15,7 +15,7 @@
 
     <servlet>
         <servlet-name>RegistrationServlet</servlet-name>
-        <servlet-class>controllers.servlets.RegistrationServlet</servlet-class>
+        <servlet-class>com.yberdaliyev.controllers.servlets.RegistrationServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistrationServlet</servlet-name>
@@ -24,7 +24,7 @@
 
     <servlet>
         <servlet-name>AdminServlet</servlet-name>
-        <servlet-class>controllers.servlets.AdminServlet</servlet-class>
+        <servlet-class>com.yberdaliyev.controllers.servlets.AdminServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>AdminServlet</servlet-name>
@@ -33,7 +33,7 @@
 
     <servlet>
         <servlet-name>DriverServlet</servlet-name>
-        <servlet-class>controllers.servlets.DriverServlet</servlet-class>
+        <servlet-class>com.yberdaliyev.controllers.servlets.DriverServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>DriverServlet</servlet-name>
@@ -42,7 +42,7 @@
 
     <servlet>
         <servlet-name>ClientServlet</servlet-name>
-        <servlet-class>controllers.servlets.ClientServlet</servlet-class>
+        <servlet-class>com.yberdaliyev.controllers.servlets.ClientServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ClientServlet</servlet-name>
@@ -51,7 +51,7 @@
 
     <filter>
         <filter-name>AuthFilter</filter-name>
-        <filter-class>controllers.filters.AuthFilter</filter-class>
+        <filter-class>com.yberdaliyev.controllers.filters.AuthFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
@@ -60,11 +60,22 @@
 
     <filter>
         <filter-name>RegFilter</filter-name>
-        <filter-class>controllers.filters.RegFilter</filter-class>
+        <filter-class>com.yberdaliyev.controllers.filters.RegFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>RegFilter</filter-name>
         <url-pattern>/registration</url-pattern>
     </filter-mapping>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/Beans.xml
+        </param-value>
+    </context-param>
 
 </web-app>

@@ -49,13 +49,28 @@
         <url-pattern>/user_account</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.yberdaliyev.controllers.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
     <filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>com.yberdaliyev.controllers.filters.AuthFilter</filter-class>
+        <init-param>
+            <param-name>avoid-urls</param-name>
+            <param-value>
+                /user_account,/admin_account,/driver_account
+            </param-value>
+        </init-param>
     </filter>
     <filter-mapping>
         <filter-name>AuthFilter</filter-name>
-        <url-pattern>/user_account</url-pattern>
+        <url-pattern>/*</url-pattern>
     </filter-mapping>
 
     <filter>

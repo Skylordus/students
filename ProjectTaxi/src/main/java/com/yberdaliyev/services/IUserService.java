@@ -10,6 +10,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 public interface IUserService {
-    void register(HttpServletRequest request);
+    void register(String user_role,
+                  String user_name,
+                  String user_surname,
+                  String user_patronymic,
+                  String user_birthdate,
+                  String user_login,
+                  String user_password,
+                  String user_email);
     User authorize(String login, String password);
 }

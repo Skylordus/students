@@ -18,7 +18,23 @@
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/script.js"></script>
-	
+	<%
+		String login = "visible";
+		String logout = "hidden";
+		String loginIncorrect = "hidden";
+		String roleAction = "/user_account";
+		if (session.getAttribute("user_object")!=null) {
+		     login = "hidden";
+		     logout = "visible";
+		     int user_role = (Integer) session.getAttribute("user_role");
+		     if (user_role==2) {roleAction="/driver_account";}
+		     else if (user_role==3) {roleAction="/admin_account";}
+		}
+		if (session.getAttribute("incorrect_login")!=null) {
+		    loginIncorrect = "visible";
+		}
+	%>
+
 	<header>
 		<nav id="header-nav" class="navbar navbar-default">
 			<div class="container">
@@ -42,25 +58,37 @@
 
 				</div>
 
-				<div class="login">
-					<form action="/login" method="post">
-						<div class="login-labels">
+				<div class="navbar-right">
+					<p class="p-login-incorrect" style="visibility: <%=loginIncorrect%>">Either login or password incorrect</p>
+					<div class="login" style="visibility: <%=login%>">
+						<form action="/login" method="post">
+							<div class="login-labels">
 								<label for="userlogin">Login:</label> <br>
 								<label for="userpassword">Password:</label>
-						</div>
-						<div class="login-fields">
+							</div>
+							<div class="login-fields">
 								<input type="text" name="userlogin" id="userlogin" placeholder="login"> <br>
 								<input type="password" name="userpassword" id="userpassword" placeholder="password">
-						</div>
-						<input class="login-button" type="submit" value="Login" formmethod="post">
-					</form>
-					<form action="/registration" method="get">
-						<input class="reg-button" type="submit" value="Register" formmethod="get">
-					</form>
+							</div>
+							<input class="login-button" type="submit" value="Login" formmethod="post">
+						</form>
+						<form action="/registration" method="get">
+							<input class="reg-button" type="submit" value="Register" formmethod="get">
+						</form>
+					</div>
+
+					<div class="profile-logout" style="visibility: <%=logout%>">
+						<form action="<%=roleAction%>" method="get">
+							<input class="reg-button" style="right: 75px" type="submit" value="Profile" formmethod="get">
+						</form>
+						<form action="/logout" method="get">
+							<input class="reg-button" style="right: 0" type="submit" value="Log out" formmethod="get">
+						</form>
+					</div>
+
 				</div>
 
-
-			</div>		
+			</div>
 		</nav>
 	</header>
 

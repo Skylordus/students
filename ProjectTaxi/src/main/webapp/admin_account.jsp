@@ -1,3 +1,4 @@
+<%@ page import="com.yberdaliyev.models.pojos.User" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,10 @@
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/script.js"></script>
-	
+	<%
+		User user = (User) session.getAttribute("user_object");
+	%>
+
 	<header>
 		<nav id="header-nav" class="navbar navbar-default">
 			<div class="container">
@@ -39,8 +43,12 @@
 					</div>
 				</div>
 
-				<div class="login">
-					<h2>Hi <%=request.getAttribute("login")%>!</h2>
+				<div style="float: right; margin-top: 20px">
+					<p><%=user.getFirstname()+" "+user.getLastname()%></p>
+					<p style="color:#f18500;font-weight: bold">Administrator</p>
+					<form action="/logout" method="get">
+						<input class="reg-button" style="position: inherit" type="submit" value="Log out" formmethod="get">
+					</form>
 				</div>
 			</div>		
 		</nav>

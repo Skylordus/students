@@ -33,7 +33,14 @@ public class RegistrationServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.trace("on POST Registration servlet");
         logger.trace("Bean userService = "+userService);
-        userService.register(request);
+        userService.register(request.getParameter("user_role"),
+                             request.getParameter("user_name"),
+                             request.getParameter("user_surname"),
+                             request.getParameter("user_patronymic"),
+                             request.getParameter("user_birthdate"),
+                             request.getParameter("user_login"),
+                             request.getParameter("user_password"),
+                             request.getParameter("user_email"));
         request.getRequestDispatcher("/index.jsp").forward(request,response);
     }
 
@@ -41,6 +48,7 @@ public class RegistrationServlet extends HttpServlet {
         logger.trace("on GET Registration servlet");
         request.getRequestDispatcher("/registration.jsp").forward(request,response);
     }
+
 
 
 }

@@ -39,20 +39,21 @@ public class LoginServlet extends HttpServlet {
         User user = userService.authorize(login,password);
         session.setAttribute("user_object",user);
         session.setMaxInactiveInterval(10*60);
+        session.setAttribute("incorrect_login",null);
 
         if (user instanceof Admin) {
-            session.setAttribute("user_role","admin");
+            session.setAttribute("user_role",3);
             request.getRequestDispatcher("/admin_account").forward(request,response);
         } else
         if (user instanceof Driver) {
-            session.setAttribute("user_role","driver");
+            session.setAttribute("user_role",2);
             request.getRequestDispatcher("/driver_account").forward(request, response);
         } else
         if (user instanceof Client) {
-            session.setAttribute("user_role","client");
+            session.setAttribute("user_role",1);
             request.getRequestDispatcher("/user_account").forward(request, response);
         } else {
-            request.setAttribute("failed","visible");
+            session.setAttribute("incorrect_login",1);
             request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }

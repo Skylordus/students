@@ -33,39 +33,44 @@ public class UserService implements IUserService {
         this.IDriverDAO = IDriverDAO;
     }
 
-    public void register(HttpServletRequest request) {
-        String role = request.getParameter("user_role");
+    public void register(String user_role,
+                         String user_name,
+                         String user_surname,
+                         String user_patronymic,
+                         String user_birthdate,
+                         String user_login,
+                         String user_password,
+                         String user_email) {
+
         User user = null;
 
-        if (role.equals("client")) {
+        if (user_role.equals("client")) {
             user = new Client();
-        } else if (role.equals("driver")) {
+        } else if (user_role.equals("driver")) {
             user = new Driver();
-        } else if (role.equals("admin")) {
+        } else if (user_role.equals("admin")) {
             user = new Admin();
         }
 
-        user.setFirstname(request.getParameter("user_name"));
-        user.setLastname(request.getParameter("user_surname"));
-        user.setPatronymic(request.getParameter("user_patronymic"));
-        String str = request.getParameter("user_birthdate");
-        logger.trace(str);
-        if (!str.isEmpty()) user.setBirthdate(Date.valueOf(str));
-        user.setLogin(request.getParameter("user_login"));
-        user.setPwd(request.getParameter("user_password"));
-        user.setEmail(request.getParameter("user_email"));
+        user.setFirstname( user_name );
+        user.setLastname( user_surname );
+        user.setPatronymic( user_patronymic );
+        if (!user_birthdate.isEmpty()) user.setBirthdate(Date.valueOf(user_birthdate));
+        user.setLogin( user_login );
+        user.setPwd( user_password );
+        user.setEmail( user_email );
 
-        if (role.equals("client")) {
+        if (user_role.equals("client")) {
             Client client = (Client) user;
             client.setDate_registered(new Date(new java.util.Date().getTime()));
             client.setOrders_amount((long)0);
             IClientDAO.insert(client);
-        } else if (role.equals("driver")) {
+        } else if (user_role.equals("driver")) {
             Driver driver = (Driver) user;
             driver.setCar((long)0);
             driver.setExperience_years((long)0);
             IDriverDAO.insert(driver);
-        } else if (role.equals("admin")) {
+        } else if (user_role.equals("admin")) {
             Admin admin = (Admin) user;
             IAdminDAO.insert(admin);
         }

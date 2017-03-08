@@ -5,7 +5,11 @@ import org.apache.log4j.Logger;
 import com.yberdaliyev.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -19,34 +23,43 @@ import java.io.IOException;
  * Created by Yerlan on 26.02.2017.
  */
 @Controller
-public class RegistrationServlet extends HttpServlet {
+public class RegistrationServlet {
+    private static Logger logger = Logger.getLogger(RegistrationServlet.class);
     @Autowired
     private IUserService userService;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
+//    @Override
+//    public void init(ServletConfig config) throws ServletException {
+//        super.init(config);
+//        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
+//    }
 
-    private static Logger logger = Logger.getLogger(RegistrationServlet.class);
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public ModelAndView doPost(@RequestParam(name = "user_role") String user_role,
+                               @RequestParam(name = "user_name") String user_name,
+                               @RequestParam(name = "user_surname") String user_surname,
+                               @RequestParam(name = "user_patronymic") String user_patronymic,
+                               @RequestParam(name = "user_birthdate") String user_birthdate,
+                               @RequestParam(name = "user_login") String user_login,
+                               @RequestParam(name = "user_password") String user_password,
+                               @RequestParam(name = "user_email") String user_email) {
         logger.trace("on POST Registration servlet");
-        logger.trace("Bean userService = "+userService);
-        userService.register(request.getParameter("user_role"),
-                             request.getParameter("user_name"),
-                             request.getParameter("user_surname"),
-                             request.getParameter("user_patronymic"),
-                             request.getParameter("user_birthdate"),
-                             request.getParameter("user_login"),
-                             request.getParameter("user_password"),
-                             request.getParameter("user_email"));
-        request.getRequestDispatcher("/index.jsp").forward(request,response);
+        ModelAndView modelAndView = new ModelAndView("registration");
+        userService.register(user_role,
+                             user_name,
+                             user_surname,
+                             user_patronymic,
+                             user_birthdate,
+                             user_login,
+                             user_password,
+                             user_email);
+        return modelAndView;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    public String doGet( ) {
         logger.trace("on GET Registration servlet");
-        request.getRequestDispatcher("/registration.jsp").forward(request,response);
+        return "registration";
     }
 
 

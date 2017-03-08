@@ -33,15 +33,15 @@ public class OrderService implements IOrderService {
     @Override
     public Order generateOrder(String id, String from, String to, String price, String client, String driver, String status, String time) {
         Order order = new Order();
-        order.setId(Long.valueOf(id);
+        order.setId(Long.valueOf(id));
         order.setFrom(from);
-        order.setTo(request.getParameter("to"));
-        order.setClient(Long.valueOf(request.getParameter("client")));
-        order.setDriver(Long.valueOf(request.getParameter("driver")));
-        order.setPrice_per_km(Long.valueOf(request.getParameter("price")));
-        order.setStatus(Long.valueOf(request.getParameter("status")));
-        order.setPickup_time(Time.valueOf(request.getParameter("pickup_time")));
-        return null;
+        order.setTo(to);
+        order.setClient(Long.valueOf(client));
+        order.setDriver(Long.valueOf(driver));
+        order.setPrice_per_km(Long.valueOf(price));
+        order.setStatus(Long.valueOf(status));
+        order.setPickup_time(Time.valueOf(time));
+        return order;
     }
 
     public Long insert(Order order) {

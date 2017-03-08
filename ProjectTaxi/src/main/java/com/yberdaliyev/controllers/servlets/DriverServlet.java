@@ -2,7 +2,10 @@ package com.yberdaliyev.controllers.servlets;
 
 import com.yberdaliyev.models.pojos.Driver;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -16,18 +19,18 @@ import java.io.IOException;
  * Created by Yerlan on 27.02.2017.
  */
 @Controller
-public class DriverServlet extends HttpServlet {
+public class DriverServlet {
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/driver_account.jsp").forward(request,response);
+    @RequestMapping(value = "/driver_account", method = RequestMethod.POST)
+    public ModelAndView doPost( )  {
+        ModelAndView modelAndView = new ModelAndView("driver_account");
+        return modelAndView;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/driver_account.jsp").forward(request,response);
+    @RequestMapping(value = "/driver_account", method = RequestMethod.GET)
+    public ModelAndView doGet( )  {
+        ModelAndView modelAndView = new ModelAndView("driver_account");
+        return modelAndView;
     }
+
 }

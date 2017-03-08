@@ -1,5 +1,10 @@
 package com.yberdaliyev.controllers.servlets;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,14 +17,18 @@ import java.io.IOException;
  * Created by Yerlan on 03.03.2017.
  */
 
-public class LogoutServlet extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().invalidate();
-        response.sendRedirect("/index.jsp");
+@Controller
+public class LogoutServlet {
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ModelAndView doPost(HttpSession session)  {
+        session.invalidate();
+        return new ModelAndView("index");
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().invalidate();
-        response.sendRedirect("/index.jsp");
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView doGet(HttpSession session)  {
+        session.invalidate();
+        return new ModelAndView("index");
     }
 }

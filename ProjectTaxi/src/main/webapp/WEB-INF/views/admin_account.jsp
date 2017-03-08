@@ -8,9 +8,9 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Project Taxi</title>
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/styles.css">
-	<link rel="stylesheet" href="css/welcome.css">
+	<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+	<link rel="stylesheet" href="<c:url value="/resources/css/styles.css" />">
+	<link rel="stylesheet" href="<c:url value="/resources/css/welcome.css" />">
 	<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
 
@@ -18,8 +18,8 @@
 
 <body style="background-size: cover">
 
-	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+	<script src="<c:url value="/resources/js/jquery-3.1.1.min.js"/>"></script>
+	<script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 	<%
 		User user = (User) session.getAttribute("user_object");
 	%>
@@ -28,11 +28,11 @@
 		<nav id="header-nav" class="navbar navbar-default">
 			<div class="container">
 				<div class="navbar-header">
-					<a href="index.jsp" class="pull-left visible-md visible-lg">
+					<a href="/" class="pull-left visible-md visible-lg">
 						<div id="logo-img" alt="Logo"></div>
 					</a>
 					<div class="navbar-brand">
-						<a href="index.jsp">
+						<a href="/">
 							<h1>Project Taxi</h1>
 							<br>
 							<a class="phone" href="tel:8-708-519-41-49">
@@ -285,7 +285,7 @@
 		</div>
 	</footer>
 
-    <script src="js/script.js"></script>
+    <script src="<c:url value="/resources/js/script.js"/>"></script>
 
 </body>
 </html>

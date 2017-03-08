@@ -8,7 +8,11 @@ import com.yberdaliyev.services.IUserService;
 import com.yberdaliyev.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,20 +26,16 @@ import java.io.IOException;
  * Created by Yerlan on 25.02.2017.
  */
 @Controller
-public class LoginServlet extends HttpServlet {
+public class LoginServlet {
+
     @Autowired
     private IUserService userService;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("userlogin");
-        String password = request.getParameter("userpassword");
-        HttpSession session = request.getSession();
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public ModelAndView doPost(HttpSession session,
+                               @RequestParam(name = "userlogin") String login,
+                               @RequestParam(name = "userpassword") String password) {
+        ModelAndView modelAndView;
         User user = userService.authorize(login,password);
         session.setAttribute("user_object",user);
         session.setMaxInactiveInterval(10*60);
@@ -43,22 +43,29 @@ public class LoginServlet extends HttpServlet {
 
         if (user instanceof Admin) {
             session.setAttribute("user_role",3);
-            request.getRequestDispatcher("/admin_account").forward(request,response);
+            modelAndView = new ModelAndView("redirect:/admin_account");
         } else
         if (user instanceof Driver) {
             session.setAttribute("user_role",2);
-            request.getRequestDispatcher("/driver_account").forward(request, response);
+            modelAndView = new ModelAndView("redirect:/driver_account");
         } else
         if (user instanceof Client) {
             session.setAttribute("user_role",1);
-            request.getRequestDispatcher("/user_account").forward(request, response);
+            modelAndView = new ModelAndView("redirect:/user_account");
         } else {
             session.setAttribute("incorrect_login",1);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            modelAndView = new ModelAndView("index");
         }
+        return modelAndView;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/index.jsp").forward(request,response);
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String doGet( )  {
+        return "index";
+    }
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String showIndex( )  {
+        return "index";
     }
 }

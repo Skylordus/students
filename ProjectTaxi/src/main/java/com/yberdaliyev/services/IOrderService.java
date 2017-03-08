@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by Yerlan on 02.03.2017.
  */
 public interface IOrderService {
-    Order generateOrder(Long id, String from, String to, Long price, Long client, Long driver, Long status, String time);
+    Order generateOrder(String id, String from, String to, String price, String client, String driver, String status, String time);
     Long insert(Order order);
     boolean delete(Long id);
     Order getOrder(Long id);

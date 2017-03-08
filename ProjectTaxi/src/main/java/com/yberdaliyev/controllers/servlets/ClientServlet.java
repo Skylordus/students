@@ -8,7 +8,11 @@ import org.apache.log4j.Logger;
 import com.yberdaliyev.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -24,7 +28,7 @@ import java.sql.Time;
  * Created by Yerlan on 27.02.2017.
  */
 @Controller
-public class ClientServlet extends HttpServlet {
+public class ClientServlet {
     private static Logger logger = Logger.getLogger(ClientServlet.class);
     @Autowired
     private IOrderService orderService;
@@ -35,21 +39,24 @@ public class ClientServlet extends HttpServlet {
     @Autowired
     private ICarService carService;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String type = request.getParameter("type");
-        HttpSession session = request.getSession();
+    @RequestMapping(value = "/user_account", method = RequestMethod.POST)
+    public ModelAndView doPost(HttpSession session,
+                               @RequestParam(name = "type") String type,
+                               @RequestParam(name = "from") String from,
+                               @RequestParam(name = "to") String to,
+                               @RequestParam(name = "pickup_time") String pickup_time,
+                               @RequestParam(name = "plan") String plan) {
+        ModelAndView modelAndView = new ModelAndView("user_account");
         Client client = (Client) session.getAttribute("user_object");
         logger.warn("in do Post type = "+type);
 
         if (type == null) {} else
         if (type.equals("new_order")){
-            Order order = generateOrder(request);
+            Order order = generateOrder(client,
+                                        from,
+                                        to,
+                                        pickup_time,
+                                        plan);
             Long id = orderService.insert(order);
             logger.error("in new order = "+order.toString());
             client.setOrder(id);
@@ -61,28 +68,27 @@ public class ClientServlet extends HttpServlet {
             orderService.delete(client.getOrder());
             client.setOrder((long)0);
         }
-
         session.setAttribute("user_object",client);
-        generateUserPage(request,response, client);
+        return generateUserPage(modelAndView, client);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+    @RequestMapping(value = "/user_account", method = RequestMethod.GET)
+    public ModelAndView doGet(HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView("user_account");
         Client client = (Client) session.getAttribute("user_object");
-        generateUserPage(request,response,client);
+        return generateUserPage(modelAndView,client);
     }
 
-    private void generateUserPage(HttpServletRequest request, HttpServletResponse response,Client client) throws ServletException, IOException {
-        request.setAttribute("login",client.getFirstname());
+    private ModelAndView generateUserPage(ModelAndView modelAndView, Client client) {
+        modelAndView.addObject("login",client.getFirstname());
         Long orderId = client.getOrder();
         if ( (orderId == 0)||(orderId == null) ) {
-            request.setAttribute("ordered",null);
-            request.getRequestDispatcher("/user_account.jsp").forward(request,response);
+            modelAndView.addObject("ordered",null);
         } else {
-            request.setAttribute("ordered","true");
+            modelAndView.addObject("ordered","true");
             Order order = orderService.getOrder(client.getOrder());
-            request.setAttribute("from",order.getFrom());
-            request.setAttribute("to",order.getTo());
+            modelAndView.addObject("from",order.getFrom());
+            modelAndView.addObject("to",order.getTo());
             long i = order.getPrice_per_km();
             String str = ""+i+" Rubles/km";
             if (i==16) {
@@ -93,8 +99,8 @@ public class ClientServlet extends HttpServlet {
             } else {
                 str+=" (Business)";
             }
-            request.setAttribute("price", str);
-            request.setAttribute("id",order.getId());
+            modelAndView.addObject("price", str);
+            modelAndView.addObject("id",order.getId());
             i=order.getDriver();
             String str2;
             if (i>0) {
@@ -106,30 +112,33 @@ public class ClientServlet extends HttpServlet {
                 str="not assigned yet";
                 str2="not assigned yet";
             }
-            request.setAttribute("driver",str);
-            request.setAttribute("car",str2);
+            modelAndView.addObject("driver",str);
+            modelAndView.addObject("car",str2);
             i=order.getStatus();
             if (i==0) {
-                request.setAttribute("status","waiting for a driver");
+                modelAndView.addObject("status","waiting for a driver");
             } else if (i==1) {
-                request.setAttribute("status","driver assigned");
+                modelAndView.addObject("status","driver assigned");
             } else if (i==2) {
-                request.setAttribute("status","order fulfilled");
+                modelAndView.addObject("status","order fulfilled");
             }
-            request.getRequestDispatcher("/user_account.jsp").forward(request,response);
         }
+        return modelAndView;
     }
 
-    private Order generateOrder(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Client client = (Client) session.getAttribute("user_object");
+    private Order generateOrder(Client client,
+                                String from,
+                                String to,
+                                String pickup_time,
+                                String plan) {
+
         Order order = new Order();
-        order.setFrom(request.getParameter("from"));
-        order.setTo(request.getParameter("to"));
-        order.setPickup_time(Time.valueOf(request.getParameter("pickup_time")+":00"));
+        order.setFrom(from);
+        order.setTo(to);
+        order.setPickup_time(Time.valueOf(pickup_time+":00"));
         order.setStatus((long)0);
         order.setClient(client.getId());
-        String str = request.getParameter("plan");
+        String str = plan;
         if ( str.equals("economy") ) {
             order.setPrice_per_km((long) 16);
         } else if ( str.equals("comfort") ) {

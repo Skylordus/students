@@ -6,7 +6,11 @@ import com.yberdaliyev.services.IOrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -22,43 +26,47 @@ import java.util.ArrayList;
  * Created by Yerlan on 27.02.2017.
  */
 @Controller
-public class AdminServlet extends HttpServlet {
+public class AdminServlet {
     private static Logger logger = Logger.getLogger(AdminServlet.class);
     @Autowired
     private IOrderService orderService;
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-    }
+    @RequestMapping(value = "/admin_account", method = RequestMethod.POST)
+    public ModelAndView doPost(@RequestParam(name = "type") String type,
+                               @RequestParam(name = "id") String id,
+                               @RequestParam(name = "from") String from,
+                               @RequestParam(name = "to") String to,
+                               @RequestParam(name = "client") String client,
+                               @RequestParam(name = "driver") String driver,
+                               @RequestParam(name = "price") String price,
+                               @RequestParam(name = "status") String status,
+                               @RequestParam(name = "pickup_time") String pickup_time) {
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         logger.trace("on doPOST AdminServlet");
-        String type = request.getParameter("type");
-        String from = request.getParameter("from");
-        String to = request.getParameter("to");
+        ModelAndView modelAndView = new ModelAndView("admin_account");
 
         if ((type!=null)&&(type.equals("edit"))) {
-            Order order = new Order();
-            order.setId(Long.valueOf(request.getParameter("id")));
-            order.setFrom(request.getParameter("from"));
-            order.setTo(request.getParameter("to"));
-            order.setClient(Long.valueOf(request.getParameter("client")));
-            order.setDriver(Long.valueOf(request.getParameter("driver")));
-            order.setPrice_per_km(Long.valueOf(request.getParameter("price")));
-            order.setStatus(Long.valueOf(request.getParameter("status")));
-            order.setPickup_time(Time.valueOf(request.getParameter("pickup_time")));
-        }
+            Order order = orderService.generateOrder(id,
+                                                    from,
+                                                    to,
+                                                    price,
+                                                    client,
+                                                    driver,
+                                                    status,
+                                                    pickup_time);
+            orderService.insert(order);}
         ArrayList<Order> orders = orderService.getAll();
-        request.setAttribute("orders",orders);
-        request.getRequestDispatcher("/admin_account.jsp").forward(request,response);
+        modelAndView.addObject("orders",orders);
+        return modelAndView;
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @RequestMapping(value = "/admin_account", method = RequestMethod.GET)
+    public ModelAndView doGet() {
         logger.trace("on doGet AdminServlet");
         ArrayList<Order> orders = orderService.getAll();
-        request.setAttribute("orders",orders);
-        request.getRequestDispatcher("/admin_account.jsp").forward(request,response);
+        ModelAndView modelAndView = new ModelAndView("admin_account");
+
+        modelAndView.addObject("orders",orders);
+        return modelAndView;
     }
 }

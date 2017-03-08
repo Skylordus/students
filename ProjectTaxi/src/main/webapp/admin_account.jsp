@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.yberdaliyev.models.pojos.User" %>
 <!DOCTYPE html>
 <html>
@@ -15,11 +16,10 @@
 
 </head>
 
-<body>
+<body style="background-size: cover">
 
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<script src="js/script.js"></script>
 	<%
 		User user = (User) session.getAttribute("user_object");
 	%>
@@ -56,21 +56,208 @@
 
 
 	<div id="main-content" class="container">
+        <section class="row">
+            <div class="md-container col-xs-12">
+                <div class="admin-md-block">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th id="orders-menu" class="table-buttons">Orders</th>
+                            <th id="clients-menu" class="table-buttons">Clients</th>
+                            <th id="drivers-menu" class="table-buttons">Drivers</th>
+                            <th id="admins-menu" class="table-buttons">Admins</th>
+                        </tr>
+                        </thead>
+                    </table>
 
-		<section class="row">
-			<div class="md-container col-xs-12">
+                    <div id="table-orders" class="sub-md-block">
 
-				<div class="md-block">
+                        <table class="table table-inverse">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Price/km</th>
+                                <th>Client</th>
+                                <th>Driver</th>
+                                <th>Status</th>
+                                <th>Pickup time</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${orders}" var="order">
+                            <tr>
+                                <th scope="row">${order.getId()}</th>
+                                <form id="order_form${order.getId()}" action="/admin_account" method="post"></form>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getFrom()}</div>
+                                        <input class="form${order.getId()} order_lid${order.getId()}" type="text" name="from">
+                                    </td>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getTo()}</div>
+                                        <input class="form${order.getId()} order_lid${order.getId()}" type="text" name="to">
+                                    </td>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getPrice_per_km()}</div>
+                                        <input  style="width: 50px" class="form${order.getId()} order_lid${order.getId()}" type="number" name="price">
+                                    </td>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getClient()}</div>
+                                        <input  style="width: 50px" class="form${order.getId()} order_lid${order.getId()}" type="number" name="client_id">
+                                    </td>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getDriver()}</div>
+                                        <input  style="width: 50px" class="form${order.getId()} order_lid${order.getId()}" type="number" name="driver_id">
+                                    </td>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getStatus()}</div>
+                                        <input  style="width: 50px" class="form${order.getId()} order_lid${order.getId()}" type="number" name="status">
+                                    </td>
+                                    <td>
+                                        <div class="order_fid${order.getId()}">${order.getPickup_time().toString()}</div>
+                                        <input style="width: 100px" class="form${order.getId()} order_lid${order.getId()}" type="time" name="pickup_time">
+                                    </td>
+                                    <input type="hidden" class="form${order.getId()} order_lid${order.getId()}" name="type" value="edit">
+                                    <input type="hidden" class="form${order.getId()} order_lid${order.getId()}" name="id" value="${order.getId()}">
+                                <td>
+                                    <div class="order_lid${order.getId()}">
+                                        <button onClick="submitForm('order_form${order.getId()}','form${order.getId()}')">Submit</button>
+                                    </div>
+                                    <div class="order_fid${order.getId()}">
+                                        <button id="edit-button" onClick="createEditForm('order_fid${order.getId()}','order_lid${order.getId()}')">
+                                            Edit
+                                        </button>
+                                        <form style="display: inline" action="/admin_account" method="post">
+                                            <input type="hidden" name="type" value="delete">
+                                            <input type="hidden" name="id" value="${order.getId()}">
+                                            <input type="submit" value="delete" formmethod="post">
+                                        </form>
+                                    </div>
+                                </td>
 
-					<div style="visibility: visible" class="sub-md-block">
-						<h1 class="order-header">Admin  :</h1>
+                                <style type="text/css">
+                                    .order_fid${order.getId()} {
+                                        display: block;
+                                    }
+                                    .order_lid${order.getId()} {
+                                        display: none;
+                                        color: black;
+                                    }
+                                </style>
+                            </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
 
-					</div>
+                    <div  id="table-clients" class="sub-md-block">
 
-				</div>
-			</div>
-		</section>
-	</div> <!-- End of #main-content -->
+                        <table class="table table-inverse">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Client1</td>
+                                <td>Clietn2</td>
+                                <td>Client3</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div  id="table-drivers" class="sub-md-block">
+
+                        <table class="table table-inverse">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Driver1</td>
+                                <td>Driver2</td>
+                                <td>Driver3</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div  id="table-admins" class="sub-md-block">
+
+                        <table class="table table-inverse">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Username</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Admin1</td>
+                                <td>Admin2</td>
+                                <td>Admin3</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Jacob</td>
+                                <td>Thornton</td>
+                                <td>@fat</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">3</th>
+                                <td>Larry</td>
+                                <td>the Bird</td>
+                                <td>@twitter</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </div> <!-- End of #main-content -->
 	
 	<footer class="panel-footer">
 		<div class="container">
@@ -98,7 +285,7 @@
 		</div>
 	</footer>
 
-
+    <script src="js/script.js"></script>
 
 </body>
 </html>

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Repository
 public class OrderDAO implements IOrderDAO {
@@ -22,6 +23,7 @@ public class OrderDAO implements IOrderDAO {
                                                 "WHERE id=?;";
     private static final String SQL_SELECT_MAXID = "SELECT max(id) FROM main.orders;";
     private static final String SQL_DELETE = "DELETE FROM main.orders WHERE id=?;";
+    private static final String SQL_GET_ALL_ORDERS = "SELECT * FROM main.orders ORDER BY id ASC";
 
     @Override
     public Long insert(Order order) {
@@ -80,4 +82,30 @@ public class OrderDAO implements IOrderDAO {
         }
         return false;
     }
+
+    @Override
+    public ArrayList<Order> getAll() {
+        Order order;
+        ArrayList<Order> orders = new ArrayList<>();
+        try (Connection conn = Connector.getConnection();
+            PreparedStatement prepS = conn.prepareStatement(SQL_GET_ALL_ORDERS) ) {
+            ResultSet resultSet = prepS.executeQuery();
+            while (resultSet.next()){
+                order = new Order();
+                order.setId(resultSet.getLong("id"));
+                order.setFrom(resultSet.getString("from"));
+                order.setTo(resultSet.getString("to"));
+                order.setPrice_per_km(resultSet.getLong("price_per_km"));
+                order.setClient(resultSet.getLong("client"));
+                order.setDriver(resultSet.getLong("driver"));
+                order.setStatus(resultSet.getLong("status"));
+                order.setPickup_time(resultSet.getTime("pickup_time"));
+                orders.add(order);
+            }
+        } catch (SQLException e) {
+            logger.error("sql error in get all orders",e);
+        }
+        return orders;
+    }
+
 }
